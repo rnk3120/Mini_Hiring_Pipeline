@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PipelineIQ – Project Submission</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #0f0f12;
+      --ink-2:  #3a3a45;
+      --ink-3:  #6b6b78;
+      --ink-4:  #9a9aaa;
+      --rule:   #e4e4ea;
+      --rule-2: #f0f0f4;
+      --bg:     #ffffff;
+      --bg-2:   #f7f7f9;
+      --bg-3:   #f0f0f4;
+      --accent: #5b5bd6;
+      --accent-bg: #ededfc;
+    }
+
+    html, body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Page wrapper ─────────────────────────────── */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 64px 64px 80px;
+    }
+
+    /* ── Cover header ─────────────────────────────── */
+    .cover {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 36px;
+      margin-bottom: 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .cover-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 10px;
+    }
+
+    .cover-title {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .cover-sub {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink-3);
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+
+    .cover-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .meta-key {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+    }
+
+    .meta-val {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    .meta-val a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-bg);
+    }
+
+    .meta-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--rule);
+      align-self: center;
+    }
+
+    /* ── Section ──────────────────────────────────── */
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 5px;
+      margin-top: 16px;
+    }
+    h3:first-child { margin-top: 0; }
+
+    p {
+      font-size: 13px;
+      color: var(--ink-2);
+      margin-bottom: 10px;
+      line-height: 1.65;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Pipeline flow diagram ────────────────────── */
+    .pipeline-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 20px 0;
+      flex-wrap: nowrap;
+    }
+
+    .stage-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .stage-pill {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 5px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .stage-pill.applied    { background: #ededfc; color: #5b5bd6; }
+    .stage-pill.screening  { background: #e0f0ff; color: #0070cc; }
+    .stage-pill.interview  { background: #e0faf3; color: #009966; }
+    .stage-pill.offer      { background: #fff5e0; color: #b06800; }
+    .stage-pill.hired      { background: #e4fae8; color: #1a7f37; }
+    .stage-pill.rejected   { background: #fde8ec; color: #c0002a; }
+
+    .stage-note {
+      font-size: 9.5px;
+      color: var(--ink-4);
+      text-align: center;
+    }
+
+    .flow-arrow {
+      width: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-4);
+      font-size: 14px;
+      padding-bottom: 14px;
+    }
+
+    .reject-note {
+      text-align: center;
+      font-size: 10.5px;
+      color: var(--ink-4);
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* ── Architecture diagram ─────────────────────── */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .arch-card {
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .arch-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 6px;
+    }
+
+    .arch-card p {
+      font-size: 12px;
+      color: var(--ink-3);
+      margin: 0;
+    }
+
+    .arch-card strong {
+      color: var(--ink);
+    }
+
+    /* ── Code block ───────────────────────────────── */
+    pre {
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+      font-size: 11.5px;
+      color: var(--ink-2);
+      overflow: hidden;
+      margin: 10px 0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    code {
+      font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+      font-size: 11.5px;
+      background: var(--bg-3);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: var(--ink);
+    }
+
+    /* ── Search examples table ────────────────────── */
+    .search-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: 12px 0;
+    }
+
+    .search-table th {
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .search-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--rule-2);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .search-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .search-table td:first-child {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 11.5px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .search-table td:last-child {
+      color: var(--ink-2);
+    }
+
+    /* ── Decision list ────────────────────────────── */
+    .decision-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .decision {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .decision-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-bg);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .decision-body {}
+
+    .decision-body strong {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .decision-body p {
+      font-size: 12px;
+      color: var(--ink-3);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── Disagreement box ─────────────────────────── */
+    .disagreement-box {
+      background: #fff8e1;
+      border: 1px solid #f5e0a0;
+      border-left: 3px solid #f5a623;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 14px 0;
+    }
+
+    .disagreement-box .tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #b06800;
+      margin-bottom: 6px;
+    }
+
+    .disagreement-box p {
+      font-size: 12px;
+      color: #6b5000;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── What next section ────────────────────────── */
+    .next-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .next-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 10px 12px;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+    }
+
+    .next-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .next-item p {
+      font-size: 11.5px;
+      color: var(--ink-3);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .next-item strong {
+      color: var(--ink);
+      font-size: 12px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* ── Footer ───────────────────────────────────── */
+    .footer {
+      margin-top: 52px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--ink-4);
+    }
+
+    /* ── Print settings ───────────────────────────── */
+    @media print {
+      html, body { background: white; }
+      .page { padding: 40px 52px 60px; }
+      .no-print { display: none; }
+      a { color: var(--accent) !important; }
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    }
+
+    /* ── Print button (screen only) ───────────────── */
+    .print-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 999;
+    }
+
+    .print-bar span {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .print-btn {
+      height: 30px;
+      padding: 0 16px;
+      background: white;
+      color: var(--ink);
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+    .print-btn:hover { opacity: 0.85; }
+
+    @media print {
+      .print-bar { display: none; }
+      body { margin-top: 0; }
+    }
+
+    body { margin-top: 44px; }
+  </style>
+</head>
+<body>
+
+<!-- Print bar (hidden in print) -->
+<div class="print-bar no-print">
+  <span>Save this page as PDF → File → Print → Save as PDF</span>
+  <button class="print-btn" onclick="window.print()">⌘ Print / Save as PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- ── Cover ──────────────────────────────────────── -->
+  <div class="cover">
+    <div class="cover-tag">Take-home Assessment · Hiring Tool</div>
+    <div class="cover-title">PipelineIQ</div>
+    <div class="cover-sub">Mini Hiring Pipeline Manager — Project Submission</div>
+    <div class="cover-meta">
+      <div class="meta-item">
+        <span class="meta-key">GitHub Repo</span>
+        <span class="meta-val"><a href="https://github.com/rnk3120/Mini_Hiring_Pipeline" id="gh-link">github.com/rnk3120/Mini_Hiring_Pipeline</a></span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <span class="meta-key">Stack</span>
+        <span class="meta-val">HTML · CSS · Vanilla JS · localStorage</span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <span class="meta-key">Dependencies</span>
+        <span class="meta-val">Zero — open index.html directly</span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <span class="meta-key">Date</span>
+        <span class="meta-val" id="doc-date"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 1. Problem → Solution ──────────────────────── -->
+  <div class="section">
+    <div class="section-label">01 — Overview</div>
+    <h2>What this is</h2>
+    <p>
+      PipelineIQ is a single-page hiring pipeline manager built for a single recruiter managing
+      candidates for one job opening. Candidates move through five ordered stages with full
+      immutable history and a smart search bar that understands plain English.
+    </p>
+
+    <!-- Pipeline flow -->
+    <div class="pipeline-flow">
+      <div class="stage-node">
+        <div class="stage-pill applied">Applied</div>
+        <div class="stage-note">Entry point</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="stage-node">
+        <div class="stage-pill screening">Screening</div>
+        <div class="stage-note">Phone screen</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="stage-node">
+        <div class="stage-pill interview">Interview</div>
+        <div class="stage-note">Technical round</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="stage-node">
+        <div class="stage-pill offer">Offer</div>
+        <div class="stage-note">Offer extended</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="stage-node">
+        <div class="stage-pill hired">Hired</div>
+        <div class="stage-note">Terminal ✓</div>
+      </div>
+    </div>
+    <div class="reject-note">
+      ↳ Reject is available at any stage before Hired.
+      <span class="stage-pill rejected" style="display:inline;padding:2px 6px;font-size:10px;">Rejected</span>
+      is also a terminal state.
+    </div>
+  </div>
+
+  <!-- ── 2. Architecture ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">02 — Architecture</div>
+    <h2>How it's built</h2>
+    <p>
+      The application is three files with no build step, no bundler, and no external dependencies.
+      It works by opening <code>index.html</code> directly in a browser.
+    </p>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-card-title">State Layer</div>
+        <p><strong>localStorage</strong> stores all data as a JSON snapshot. Reads reconstruct the full state on load. Perfectly sufficient for a single-recruiter, single-device use case.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Audit Trail</div>
+        <p>History entries are <strong>append-only</strong>. Every mutation creates a new array: <code>[...old, newEntry]</code>. No edit function exists. Timestamps are set once at write time and never touched again.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Search Engine — Layer 1</div>
+        <p><strong>NLP intent parser</strong> (regex-based). Extracts structured intents: stage filter, stuck-for-duration, moved-since-date, offer-not-hired, stage exclusion. Returns descriptive errors on bad input.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Search Engine — Layer 2</div>
+        <p><strong>Levenshtein fuzzy match</strong> (custom 20-line implementation). Handles typos in candidate names ("sharam" → "Sharma"). Substring match scores 1.0; word-level edit distance scales below that.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Stage Rules</div>
+        <p>Stages are an <strong>ordered array</strong>. <code>nextStage()</code> returns the next index — skipping is structurally impossible. <code>Hired</code> and <code>Rejected</code> are terminal; no advancement function exists for them.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">UI</div>
+        <p><strong>Vanilla JS DOM</strong>. Kanban board with 6 columns, search-results view, three modals (add, detail, reject), toast notifications. All rendering is functional: state → DOM.</p>
+      </div>
+    </div>
+
+    <h3>File structure</h3>
+    <pre>pipelineiq/
+├── index.html      App shell, semantic HTML, all modals
+├── styles.css      Design system — tokens, layout, components
+├── app.js          All logic: state, search, actions, rendering
+├── README.md       How to run, decisions, what's next
+└── ai_chat_logs.md AI conversation log with the Fuse.js disagreement</pre>
+  </div>
+
+  <!-- ── 3. Search ───────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">03 — Smart Search</div>
+    <h2>What the search can do</h2>
+    <p>
+      The search bar accepts plain English. A two-layer engine handles both structured queries
+      and fuzzy name lookups. Multiple intents can be combined in one query.
+    </p>
+
+    <table class="search-table">
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>What it does</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Priya</td><td>Fuzzy name search — finds "Priya Sharma" exactly</td></tr>
+        <tr><td>sharam</td><td>Levenshtein match — finds "Priya Sharma" despite the typo</td></tr>
+        <tr><td>in Interview</td><td>All candidates currently in the Interview stage</td></tr>
+        <tr><td>who's in Screening</td><td>Same — natural language alias handled</td></tr>
+        <tr><td>stuck in Screening for more than a week</td><td>Candidates in Screening ≥ 7 days</td></tr>
+        <tr><td>moved to Interview since Monday</td><td>Candidates who entered Interview in the last N days</td></tr>
+        <tr><td>offer not hired</td><td>Candidates who reached Offer but aren't Hired</td></tr>
+        <tr><td>everyone except rejected</td><td>All candidates excluding the Rejected stage</td></tr>
+        <tr><td>nonsense query</td><td>Descriptive error message — never silent empty result</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── 4. Key decisions ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">04 — Key Decisions</div>
+    <h2>Why these choices</h2>
+
+    <div class="decision-list">
+      <div class="decision">
+        <div class="decision-num">1</div>
+        <div class="decision-body">
+          <strong>Vanilla JS over React/Vue</strong>
+          <p>
+            The problem is explicitly one recruiter, one job, one pipeline — a small, bounded CRUD problem.
+            A framework would add ~100KB of runtime, a build pipeline, and module complexity for zero functional benefit.
+            The app loads instantly and works offline.
+          </p>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">2</div>
+        <div class="decision-body">
+          <strong>localStorage over a backend</strong>
+          <p>
+            A single-recruiter tool needs no server. localStorage gives instant reads/writes,
+            survives restarts, and has zero infrastructure cost. The tradeoff is accepted:
+            for a team product, I'd use Supabase + Postgres with optimistic UI.
+          </p>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">3</div>
+        <div class="decision-body">
+          <strong>Append-only history as the immutability primitive</strong>
+          <p>
+            Rather than a database constraint, immutability is enforced structurally in code:
+            the only mutation API is <code>addHistoryEntry()</code>. The pattern
+            <code>c.history = [...c.history, newEntry]</code> makes it impossible to alter
+            existing entries even accidentally.
+          </p>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="decision-num">4</div>
+        <div class="decision-body">
+          <strong>Regex intent parser over a real NLP library</strong>
+          <p>
+            For 6–7 distinct query patterns, a lightweight regex parser is the right tool.
+            A full NLP library (compromise.js, natural) would be overkill, add a dependency,
+            and make the error messages harder to control. The parser is ~80 lines and covers
+            all required query types.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Disagreement -->
+    <div class="disagreement-box">
+      <div class="tag">⚠ Where I disagreed with the AI</div>
+      <p>
+        <strong>AI recommended:</strong> Use Fuse.js via CDN for fuzzy search
+        (<code>&lt;script src="https://cdn.jsdelivr.net/…/fuse.min.js"&gt;</code>).<br/><br/>
+        <strong>My decision:</strong> I wrote a custom 20-line Levenshtein implementation instead. Two reasons:
+        (1) A CDN dependency makes the app fail offline — this is a static file that should work anywhere.
+        (2) Fuse.js's scoring is opaque; a custom implementation gives complete control over ranking logic
+        and makes it easy to debug why a result ranks where it does.
+        The cost was 20 lines of well-understood code. The benefit was zero dependencies and offline safety.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── 5. Design ──────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">05 — Design</div>
+    <h2>Interface approach</h2>
+    <p>
+      The design takes deliberate cues from Linear and Vercel's design language —
+      dark, restrained, typographically precise. Every color choice serves a functional purpose:
+      stage accent colors communicate meaning, not decoration. Spacing follows an 8px baseline grid.
+    </p>
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-card-title">Color palette</div>
+        <p><strong>Dark surfaces</strong> — <code>#0e0e10</code> base, three elevation levels.
+        Stage colors only appear on meaningful elements (dots, chips, timeline). No gradients, no glow.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Typography</div>
+        <p><strong>Inter Variable</strong> at 13px base. Three weights (400, 500, 600).
+        Labels at 11px / 0.08em tracking. Names at −0.01em for tight, readable density.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Kanban columns</div>
+        <p>Each column has a <strong>2px accent line</strong> at the top (stage colour) and a neutral header.
+        Cards carry a top-border divider — no heavy card shadows or glassmorphism.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">Interaction</div>
+        <p>Cards lift <strong>1px on hover</strong> with a 120ms ease. Modals scale from 0.98 → 1 in 220ms.
+        All animations use <code>cubic-bezier(0.16, 1, 0.3, 1)</code> — the "spring" feel without a library.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. What's next ─────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">06 — With more time</div>
+    <h2>What I'd add next</h2>
+    <div class="next-grid">
+      <div class="next-item">
+        <div class="next-icon">🗄</div>
+        <div>
+          <strong>Backend + Database</strong>
+          <p>Supabase (Postgres) to replace localStorage. Enables multi-user, cross-device access.</p>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">⚡</div>
+        <div>
+          <strong>Real-time updates</strong>
+          <p>WebSocket / SSE so two recruiters see live pipeline changes without refresh.</p>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">🧪</div>
+        <div>
+          <strong>Unit tests</strong>
+          <p>Vitest coverage for <code>parseQuery()</code>, <code>advanceCandidate()</code>, and audit trail immutability.</p>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">🔍</div>
+        <div>
+          <strong>Smarter search</strong>
+          <p>Phonetic matching, date range queries ("applied in September"), role-based filters.</p>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">📊</div>
+        <div>
+          <strong>Analytics</strong>
+          <p>Time-to-hire, stage conversion rates, avg days per stage — recruit smarter over time.</p>
+        </div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">♿</div>
+        <div>
+          <strong>Accessibility audit</strong>
+          <p>Full keyboard navigation, ARIA live regions for search, high-contrast mode.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────────────── -->
+  <div class="footer">
+    <div class="footer-brand">PipelineIQ</div>
+    <div class="footer-note">
+      GitHub: <a id="gh-link-footer" href="https://github.com/YOUR_USERNAME/pipelineiq" style="color:var(--accent)">github.com/YOUR_USERNAME/pipelineiq</a>
+    </div>
+  </div>
+
+</div><!-- .page -->
+
+<script>
+  // Auto-fill today's date
+  document.getElementById('doc-date').textContent = new Date().toLocaleDateString('en-IN', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+</script>
+
+</body>
+</html>
