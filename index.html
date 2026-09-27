@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PipelineIQ – Hiring Pipeline</title>
+  <meta name="description" content="Track candidates from Applied to Hired with full audit trail and smart search." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Navbar ─────────────────────────────────────────── -->
+  <nav class="navbar">
+
+    <div class="nav-brand">
+      <div class="brand-mark">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.9"/>
+          <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.5"/>
+          <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.5"/>
+          <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.25"/>
+        </svg>
+      </div>
+      <span class="brand-name">PipelineIQ</span>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <div class="search-wrap">
+      <span class="search-icon-el">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <input
+        id="search-input"
+        class="search-input"
+        type="text"
+        placeholder='Search: "in Interview", "stuck in Screening > 7d", "Priya", "offer not hired"…'
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="search-clear" class="search-clear" style="display:none" title="Clear">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-stats" id="nav-stats"></div>
+      <button class="btn-add" id="open-add-modal">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        Add Candidate
+      </button>
+    </div>
+
+  </nav>
+
+  <!-- ── Search feedback ────────────────────────────────── -->
+  <div id="search-feedback" class="search-feedback" style="display:none"></div>
+
+  <!-- ── Main ───────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Kanban board -->
+    <div id="pipeline-board" class="pipeline-board"></div>
+
+    <!-- Search results -->
+    <div id="results-view" class="results-view" style="display:none">
+      <div class="results-bar">
+        <span id="results-label" class="results-label"></span>
+        <span id="results-badge" class="results-badge"></span>
+      </div>
+      <div id="results-grid" class="results-grid"></div>
+    </div>
+
+  </main>
+
+</div><!-- #app -->
+
+<!-- ── Add Candidate Modal ────────────────────────────────── -->
+<div id="add-modal" class="modal-overlay" style="display:none"
+     role="dialog" aria-modal="true" aria-labelledby="add-title">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="add-title">Add Candidate</span>
+      <button class="modal-close" id="close-add-modal" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <form id="add-form" class="modal-form" novalidate>
+      <div class="form-group">
+        <label for="f-name">Full name *</label>
+        <input id="f-name" type="text" placeholder="e.g. Priya Sharma" required />
+        <span class="field-err" id="err-name"></span>
+      </div>
+      <div class="form-group">
+        <label for="f-role">Role applied for *</label>
+        <input id="f-role" type="text" placeholder="e.g. Senior Frontend Developer" required />
+        <span class="field-err" id="err-role"></span>
+      </div>
+      <div class="form-group">
+        <label for="f-email">Email</label>
+        <input id="f-email" type="email" placeholder="priya@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="f-notes">Notes</label>
+        <textarea id="f-notes" rows="3" placeholder="Initial notes about the candidate…"></textarea>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn-ghost" id="cancel-add">Cancel</button>
+        <button type="submit" class="btn-primary">Add to Pipeline</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── Candidate Detail Modal ─────────────────────────────── -->
+<div id="detail-modal" class="modal-overlay" style="display:none"
+     role="dialog" aria-modal="true" aria-labelledby="detail-title">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div class="detail-hero">
+        <div id="d-avatar" class="detail-avatar"></div>
+        <div class="detail-hero-text">
+          <h3 id="detail-title"></h3>
+          <p id="d-role"></p>
+        </div>
+      </div>
+      <button class="modal-close" id="close-detail-modal" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-stage-bar">
+        <div class="stage-bar-left">
+          <span id="d-stage-chip" class="stage-chip-lg"></span>
+          <span id="d-stage-dur"  class="stage-dur"></span>
+        </div>
+        <div id="d-actions" class="stage-actions"></div>
+      </div>
+      <div class="detail-sections">
+        <div>
+          <div class="section-label">Audit Trail</div>
+          <div id="d-timeline" class="timeline"></div>
+        </div>
+        <div>
+          <div class="section-label">Details</div>
+          <div id="d-info" class="info-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Reject Modal ───────────────────────────────────────── -->
+<div id="reject-modal" class="modal-overlay" style="display:none"
+     role="dialog" aria-modal="true" aria-labelledby="reject-title">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <span class="modal-title" id="reject-title">Reject Candidate</span>
+      <button class="modal-close" id="close-reject-modal" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="reject-warn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        This cannot be undone. The candidate's history will be preserved.
+      </div>
+      <div class="form-group">
+        <label for="reject-reason">Reason <span style="color:var(--t4)">(optional)</span></label>
+        <textarea id="reject-reason" rows="2" placeholder="e.g. Skills mismatch, withdrew application…"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" id="cancel-reject">Cancel</button>
+      <button class="btn-danger" id="confirm-reject">Reject Candidate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toasts ─────────────────────────────────────────────── -->
+<div id="toast-wrap" class="toast-wrap" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
